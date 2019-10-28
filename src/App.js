@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Videos from './Database/love.mp4'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class Video extends React.Component {
+  playVideo() {
+    // You can use the play method as normal on your video ref
+    this.refs.vidRef.play();
+  }
+  
+  pauseVideo() {
+    // Pause as well
+    this.refs.vidRef.pause();
+  }
+  
+  // You can pass your function references to your child components as props (here passing down to the Buttons component)
+  render() {
+    return(
+      <div>
+        <video src={Videos} ref="vidRef" type="video/mp4"></video>
+        <Buttons playVideo={this.playVideo.bind(this)} pauseVideo={this.pauseVideo.bind(this)} />
+      </div>
+    );
+  }
 }
 
-export default App;
+// You can then call the parent play/pause methods from your child component.
+class Buttons extends React.Component {
+  render(){
+    return(
+      <div>
+        <button id='playButton' onClick={this.props.playVideo}>Play!</button>
+        <button id='pauseButton' onClick={this.props.pauseVideo}>Pause!</button>
+      </div>
+    );
+  }
+}
